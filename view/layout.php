@@ -6,9 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="Forum" />
-    <meta name="description" content="Forum réaliser dans le cadre de ma formation CDA">
+    <meta name="description" content="Forum réalisé dans le cadre de ma formation CDA">
     <meta property="og:url" content="https://www.manucloud.ddns.net/forum" />
     <meta property="og:description" content="Forum réaliser dans le cadre de ma formation CDA">
+    <meta property="og:image" itemprop="image" content="//manucloud.ddns.net/forum/public/images/acheter-un-chat.jpg">
     <!-- <meta property="og:image" itemprop="image" content="//manucloud.ddns.net/forum/public/images/acheter-un-chat.jpg"> -->
     <meta property="og:type" content="website" />
     <meta property="og:locale:alternate" content="fr_FR" />
@@ -20,9 +21,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
     <link rel="stylesheet" href="public/styles/style.css">
     
+   
     <title>Forum formation CDA</title>
 </head>
 <body>
+<div id="fb-root"></div>
     <link itemprop="thumbnailUrl" href="http://manucloud.ddns.net/forum/public/images/acheter-un-chat.jpg"> <span itemprop="thumbnail" itemscope itemtype="http://manucloud.ddns.net/forum/public/images/acheter-un-chat.jpg"> <link itemprop="url" href="http://manucloud.ddns.net/forum/public/images/acheter-un-chat.jpg"> </span>
 <div class="modal close hide">
     <div class="affich .transform flex">
@@ -40,7 +43,7 @@
 <div class="wrapper">
     <div class="container">
         <div class="what">
-            <a href="whatsapp://send?text=http://manucloud.ddns.net"><i class="fab fa-2x fa-whatsapp"></i></a>
+            <a href="whatsapp://send?text=http://manucloud.ddns.net/forum"><i class="fab fa-2x fa-whatsapp"></i></a>
         </div>
         <div class="burger"><i class="fas fa-3x fa-bars"></i></div>
         <?php     

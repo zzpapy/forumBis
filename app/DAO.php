@@ -79,6 +79,7 @@
         {
             try{
                 $stmt = self::$bdd->prepare($sql);
+                // var_dump($sql,$params);die;
                 $stmt->execute($params);
                 if($multiple){
                     $results = $stmt->fetchAll();

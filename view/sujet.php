@@ -8,8 +8,9 @@
         <input type="hidden" name="membre_id" value='.$_SESSION["user"]->getId().'>
         <input class="input" type="text" name="titre">
         <div>
-        <label for="photo" class="label-file"><i class="far fa-2x fa-image"></i></label>
-        <input type="file"class="input-file" name="photo" id="photo">
+        <label for="photo" class="label-file"><span class="label_photo"> choisir une image(option)</span> <i class="far fa-2x fa-image"></i></label>
+        <img id="blah" src="public/images/no.jpg" alt="your image" />
+        <input type="file"class="input-file" name="photo" id="photo" onchange="readURL(this);">
         <input type="submit"  class="button_form" name="crea_sujet">
         </div>
         </form>

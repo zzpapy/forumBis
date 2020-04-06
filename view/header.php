@@ -14,6 +14,9 @@
 
         echo "</div>";
     }
+    if(isset($_SESSION["user"])){
+        echo "<a href='index.php?action=logout'>logout</a>";
+    }        
     ?>
     </h1>
     <div class="head">
@@ -39,16 +42,22 @@
         }
         
         
-        echo "<a href='index.php?action=sujet'>Accueil</a>";                
-        echo "<a href='index.php?action=findPhoto'>Gallerie</a>";
         if(isset($_SESSION["user"])){
-            echo "<a href='index.php?action=logout'>logout</a>";
-            echo "";
-        }        
+            echo "<a href='index.php?action=userMess'>mes message</a>"; 
+        }               
+        echo "<a href='index.php?action=findPhoto'>Gallerie</a>";
+        echo "<a href='index.php?action=sujet'>Accueil</a>";
+       
         ?>
     </div>
 </div>
 <div class='affich'></div>
+<?php 
+    if(isset($_SESSION["connect"])){
+        echo "<div class='blink connect_user'></div>";
+        
+    }
+?>
 <div class="error">
     <?php 
         if(isset($_SESSION["error"])){
@@ -69,6 +78,5 @@
             $msg = "";
         }
         echo $msg;
-    ?>
-    
+    ?>    
 </div>

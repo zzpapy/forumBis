@@ -24,19 +24,15 @@
             
             $signal = new SignalementManager();
             $signal = $signal->findAll();
-            // var_dump($signal);die;
             $man = new SujetManager();
             
             $sujets = $man->findAll();
-            // var_dump($sujets);die();
             $tab = [];
             if(is_object($sujets)){
                 $man = new MessageManager();
                 $mess = $man->findBySujet($sujets->getId()); 
-                // var_dump($mess);
                 if($mess && !is_object($mess)){
                     $tab[$sujets->getId()] = count($mess);
-                    // array_push($tab,[$sujets->getId()=>count($mess)]);
                     
                 }
                 else if(is_object($mess)){
@@ -44,28 +40,21 @@
                 }
                 else{
                     $tab[$sujets->getId()] = 0;
-                    // array_push($tab,[$value->getId()=>1]);
                 }
                 
             }
             else if($sujets != ''){
                 foreach ($sujets as $key => $value) {
-                    // $sujet_close = $man->findOneById($value->getId());
-                    // var_dump($sujet_close);die;
                     $man = new MessageManager();
-                    $mess = $man->findBySujet($value->getId()); 
-                    // var_dump($mess);
+                    $mess = $man->findBySujet($value->getId());
                     if($mess && !is_object($mess)){
                         $tab[$value->getId()] = count($mess);
-                        // array_push($tab,[$value->getId()=>count($mess)]);
-                        
                     }
                     else if(is_object($mess)){
                         $tab[$value->getId()] = 1;
                     }
                     else{
                         $tab[$value->getId()] = 0;
-                        // array_push($tab,[$value->getId()=>1]);
                     }
                 }
             }
@@ -81,20 +70,12 @@
                 "data" =>""
             ];
         }
-
-
-
-
-
-
         public function signIn(){
 
             return [
                 "view" =>  VIEW_DIR."crea-compte.php"
             ];
         }
-
-
         public function crea($data){
             $man = new MembreManager($_POST);
             $user = $man -> findOneByName($data["pseudo"]);
@@ -106,7 +87,6 @@
                 ];
             }
             else{
-                // var_dump($_POST);die;
                 $user  = $man -> add($_POST);
                 return [
                     "view" => VIEW_DIR."sujet.php",
@@ -115,16 +95,10 @@
             }
         }
         public function connect(){
-            // var_dump($_POST);die;
             $man = new MembreManager();
             $user = $man -> findOneByName($_POST["pseudo"]);
-            // var_dump($user);die;
-            // var_dump(password_verify($_POST["password"], $user->getPassword()));
-            $man ="";
             $bool = false;
             if($user){
-                // if($bool){
-                    
                     if( password_verify($_POST["password"], $user->getPassword()) && $_POST["pseudo"] == $user->getPseudo()){
                         $bool = true;
                         SESSION::addFlash("user",$user);
@@ -140,62 +114,44 @@
                         $action = "crea_sujet"; 
                         if(is_object($sujets)){
                             $man = new MessageManager();
-                            $mess = $man->findBySujet($sujets->getId()); 
-                            // var_dump($mess);
+                            $mess = $man->findBySujet($sujets->getId());
                             if($mess && !is_object($mess)){
                                 $tab[$sujets->getId()] = count($mess);
-                                // array_push($tab,[$sujets->getId()=>count($mess)]);
-                                
                             }
                             else if(is_object($mess)){
                                 $tab[$sujets->getId()] = 1;
                             }
                             else{
                                 $tab[$sujets->getId()] = 0;
-                                // array_push($tab,[$value->getId()=>1]);
                             }
                             
                         }
-                        else{
-                            // var_dump("toto");die();
-                            
+                        else{                            
                             foreach ($sujets as $key => $value) {
                                 $man = new MessageManager();
                                 $mess = $man->findBySujet($value->getId()); 
-                                // var_dump($mess);
                                 if($mess && !is_object($mess)){
                                     $tab[$value->getId()] = count($mess);
-                                    // array_push($tab,[$value->getId()=>count($mess)]);
-                                    
                                 }
                                 else if(is_object($mess)){
                                     $tab[$value->getId()] = 1;
                                 }
                                 else{
                                     $tab[$value->getId()] = 0;
-                                    // array_push($tab,[$value->getId()=>1]);
                                 }
                             }
-                            // var_dump("toto",$tab);die;
                         }
                         $test = new MembreManager();
                         $test = $test->selectUsers();
+                        $user ->setPassword("");
                         SESSION::addFlash( "bool",$bool);
                         SESSION::addFlash( "user",$user);
                         SESSION::addFlash( "liste",$sujets);
                         SESSION::addFlash( "mess",$tab);
                         SESSION::addFlash( "users",$test);
+                        SESSION::addFlash( "connect",true);
                             
                         header('location:index.php?action=sujet');die();
-                        // return [
-                        //     "view" => VIEW_DIR."sujet.php",
-                        //     "data" => [
-                        //         "bool" => $bool,
-                        //         "user" => $user,
-                        //         "liste" => $sujets,
-                        //         "mess" => $tab
-                        //         ]
-                        //     ];
                         }                   
                         else{
                             $msg = "Une erreur s'est produite merci de vérifier vos éléments de connexion";
@@ -217,19 +173,13 @@
             }   
         }
         public function logout(){
-            // SESSION::sessionDestroy();
             unset($_SESSION["user"]);
             unset($_SESSION["admin"]);
-            // var_dump($_SESSION);die();
-                header('location:index.php?action=index'); 
-                return [
-                    "view" => VIEW_DIR."home.php" ,
-                    "data" => "Aurevoir"                       
-                ];
+            unset($_SESSION["connect"]);
+                header('location:index.php?action=index');
         }
         public function crea_sujet($id){
             if($_FILES["photo"]["name"] != ''){
-                // var_dump($_FILES["photo"]["name"] != '' );die;
                 $photo = $this->upload($_FILES);
                 $_POST["photo"] = $photo;
             }
@@ -241,13 +191,8 @@
                 SESSION::addFlash("success",$msg);
                 SESSION::addFlash("liste",$sujets);
             }
-            // var_dump($sujets);
             header(('location:index.php?action=crea_mess&membre_id='.$_SESSION["user"]->getId().'&sujet_id='.$sujet.''));
             die();
-            // return [
-            //     "view" => VIEW_DIR."crea_sujet.php",
-            //     "data" => $sujets
-            // ];
         }
         public function crea_mess($id){
             
@@ -261,7 +206,6 @@
                 if($_GET["sujet_id"] != '' && !isset($_GET["ok"]) && $close == 0){
                     $man = new SujetManager();
                     if($_FILES["photo"]["name"] != ''){
-                        // var_dump($_FILES["photo"]["name"] != '' );die;
                         $photo = $this->upload($_FILES);
                         $_POST["photo"] = $photo;
                     }
@@ -270,25 +214,18 @@
                     $sub = new SubMessManager();
                     $sub_mess = $sub->findAll();
                     $man = new MessageManager();
-                    $log = $man->add($_POST); 
-                    // var_dump($log);die;
+                    $log = $man->add($_POST);
                     if($log != ""){
                         $msg = "Un nouveau message viens d'être créer";
                         SESSION::addFlash("success",$msg);
                     } 
                     $mess = $man->findBySujet($_GET["sujet_id"]);
-                    // var_dump($mess);die;
-                    // if(array_key_exists($_SESSION["views"][$_GET["sujet_id"]],$_SESSION["views"])){
-                        
-                        // }
                     if(!isset($_SESSION["views"][$_GET["sujet_id"]])){
                         SESSION::addViews($_GET["sujet_id"],1);
                     }
                     else{
                         $_SESSION["views"][$_GET["sujet_id"]]++;
                     }
-                    // var_dump( $_SESSION);die();
-                    // header('location:index.php?action=sujet');die(); 
                     $_POST= "";
                     
                     header('location:index.php?action=crea_mess&ok=true&sujet_id='.$_GET["sujet_id"].'&membre_id='.$_SESSION["user"]->getId());die(); 
@@ -296,7 +233,7 @@
                 else if(isset($_GET["ok"])){
                     $man = new SujetManager();
                     $sujets = $man->findAll(); 
-                    $sujet = $man->findOneById($_GET["sujet_id"])->getTitre();
+                    $sujet = $man->findOneById($_GET["sujet_id"]);
                     $sub = new SubMessManager();
                     $sub_mess = $sub->findAll();
                     $man = new MessageManager();
@@ -304,8 +241,7 @@
                     return [
                         "view" => VIEW_DIR."crea_mess.php",
                         "data" => ["mess"=>$mess,"sujet" => $sujet,"subMess"=>$sub_mess]
-                    ];
-                    
+                    ];                    
                 }
                 else{
                     $man = new SujetManager();
@@ -314,7 +250,6 @@
                         $msg = "ce sujet a été clôturé";
                         SESSION::addFlash("error",$msg);
                     }
-                    // var_dump($_GET);die;
                     return [
                         "view" => VIEW_DIR."sujet.php",
                         "data" => ["liste"=>$sujets]
@@ -439,6 +374,18 @@
             return [
                 "view" => VIEW_DIR."affich_signal.php",
                 "data" => ""
+            ];
+        }
+        public function userMess(){
+            $man = new MessageManager();
+            // var_dump($_SESSION);die;
+            $mess = $man->findByUserId($_SESSION["user"]->getId());
+            $sub = new SubMessManager();
+            $sub_mess = $sub->findAll();
+            // var_dump($mess);die;
+            return [
+                "view" => VIEW_DIR."listeMessUser.php",
+                "data" => ["mess"=>$mess,"subMess"=>$sub_mess]
             ];
         }
         public function upload($photo){

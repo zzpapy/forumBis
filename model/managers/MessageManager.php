@@ -36,6 +36,7 @@
             $sql = "SELECT *
                     FROM ".$this->tableName." a
                     ORDER BY date DESC";
+                    // var_dump($sql);die;
        
             return $this->getMultipleResults(
                 DAO::select($sql), 
@@ -76,5 +77,17 @@
             WHERE id_message=".$_POST["id_message"];
             return DAO::update($sql);
         }
+        public function findByUserId($membre_id){
+            // var_dump($this->tableName);die;
+            $sql = "SELECT *
+                    FROM ".$this->tableName." v WHERE v.membre_id = :membre_id
+                    ORDER BY date DESC";
+
+            return $this->getMultipleResults(
+                DAO::select($sql, ['membre_id' => $membre_id]), 
+                $this->className
+            );
+        } 
+               
        
     }

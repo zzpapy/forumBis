@@ -10,7 +10,8 @@
         public function findAll(){
 
             $sql = "SELECT *
-                    FROM ".$this->tableName." a";
+                    FROM ".$this->tableName." a
+                    ORDER BY date DESC";
        
             return $this->getMultipleResults(
                 DAO::select($sql), 
@@ -24,7 +25,7 @@
                     FROM ".$this->tableName." a
                     WHERE a.id_".$this->tableName." = :id
                     ";
-            // var_dump($id);
+            // var_dump($id);die;
             return $this->getOneOrNullResult(
                 DAO::select($sql, ['id' => $id], false), 
                 $this->className

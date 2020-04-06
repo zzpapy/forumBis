@@ -101,6 +101,7 @@ img{
     color: white;
     font-size: 1.5em;
 }
+
 .titre a{
     color:white;
 }
@@ -274,6 +275,10 @@ img{
     overflow: hidden;
     padding: 0.5em;
 }
+.label_photo{
+    color: black;
+    font-size: 0.5em;
+}
 .message{
     border: 2px solid green;
 }
@@ -282,6 +287,9 @@ img{
     background: green;
     color: white;
     border-radius: 15px;
+}
+#blah{
+    width: 7em;
 }
 .mess{
     background: white;
@@ -428,6 +436,19 @@ button{
     display: none;
 }
 @media screen and (max-width: 640px) {
+    .head a{
+        background: white;
+        color: black;
+        text-align: center;
+        margin-bottom: 0.5em;
+        padding: 0 0.5em;
+        border: 2px 2px 2px black;
+        box-shadow: 1px 1px 1px white;
+    }
+    .sticky_home{
+        display: flex;
+        flex-direction: column-reverse;
+    }
     .what{
         position: fixed;
         top:1em;
@@ -441,7 +462,7 @@ button{
         display: block;
         position: sticky;
         top: 1em;
-        left: 20em;
+        left: 19em;
         width: 10%;
         z-index: 1;
     }
@@ -453,7 +474,7 @@ button{
     .sticky{
         padding:1em;
         display: none;
-        width: 60%;
+        /* width: 60%; */
         position: sticky;
         top: 3em;
         left: 10em;
@@ -501,6 +522,17 @@ button{
     }
     .block_mess .bordure:nth-child(even),.block_mess .bordure:nth-child(odd){
         align-self: center;
+    }
+    .connect_user{
+        width: 1em;
+    height:1em;
+    background: green;
+    border-radius: 50%;
+    position: fixed;
+    top: 1em;
+    right: 4em;
+    /* display: block; */
+    z-index: 3;
     }
     .crea_mess,.crea_sujet{
         /* position: sticky;

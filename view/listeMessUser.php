@@ -1,5 +1,5 @@
 <?php 
-// var_dump($result["data"]["sujet"]);die;
+// var_dump($result["data"]["mess"]);
 if(isset($_GET["sujet_id"])){
     $sujet_id = $_GET["sujet_id"];
     $id = $_SESSION["user"]->getId();
@@ -16,25 +16,18 @@ if(isset($_GET["sujet_id"])){
 else{
     $sujet_id = '';
 }
+if(isset($result["data"]["subMess"])){
+    $subMess = $result["data"]["subMess"];
+    
+}
+else{
+    $subMess = false;
+}
 ?>
 <div class="list_sujet">
-    <div class="crea_mess">
-        <h3> Titre du sujet : <?php echo $result["data"]["sujet"]->getTitre() ?></h3>
-        <span>par: <?php echo $result["data"]["sujet"]->getMembre()->getPseudo()?></span>
-        <p>Nouveau message</p>
-        <form action="index.php?action=crea_mess&sujet_id=<?php echo $sujet_id ?>" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="membre_id" value="<?= $id ?>">
-            <input class="input" type="text" name="content">
-            <div>
-                <label for="photo" class="label-file"><span class="label_photo"> choisir une image(option) </span><i class="far fa-2x fa-image"></i></label>
-                <input  type="file" class="input-file" name="photo" id="photo" onchange="readURL(this);">
-                <img id="blah" src="public/images/no.jpg" alt="your image" />
-                <input type="hidden" name="sujet_id" value="<?= $sujet_id ?>">
-                <input type="submit" class=" button_form" name="crea_mess">
-            </div>
-        </form>
-    </div>
-    <div class="block_mess">
+
+
+<div class="block_mess">
         <p>liste des messages</p>
         <?php 
         $msg = "";
@@ -72,4 +65,4 @@ else{
             }
             ?>
     </div>
-</div>
+    </div>

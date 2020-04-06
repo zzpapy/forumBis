@@ -14,6 +14,7 @@
                     $sujet_id = $value->getMessage()->getSujet()->getTitre();
                     // var_dump($sujet_id);die;
                     $pseudo = $value->getMembre()->getPseudo();
+                    $photo = $value->getPhoto();
                     $date = $value->getDate();
                     $date = new \DateTime($date);
                     $date = $date->format('d/m/Y H:i');
@@ -24,6 +25,7 @@
             }
             else{
                 $id_mess = $_SESSION["signal"]->getMessage()->getId();
+                $photo = $_SESSION["signal"]->getMessage()->getPhoto();
                 $author = $_SESSION["signal"]->getMessage()->getMembre()->getId();
                 $pseudo = $_SESSION["signal"]->getMessage()->getMembre()->getPseudo();
                 // var_dump($author);die;
