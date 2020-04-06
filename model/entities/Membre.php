@@ -8,6 +8,7 @@
         private $id;
         private $pseudo;
         private $password;
+        private $connected;
 
         public function __construct($data){ 
             // var_dump($data);die;        
@@ -74,6 +75,26 @@
         public function setId($id)
         {
                 $this->id = $id;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of connected
+         */ 
+        public function getConnected()
+        {
+                return $this->connected;
+        }
+
+        /**
+         * Set the value of connected
+         *
+         * @return  self
+         */ 
+        public function setConnected($connected)
+        {
+                $this->connected = $connected;
 
                 return $this;
         }

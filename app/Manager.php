@@ -7,17 +7,7 @@
             DAO::connect();
         }
 
-        public function findAll(){
-
-            $sql = "SELECT *
-                    FROM ".$this->tableName." a
-                    ORDER BY date DESC";
        
-            return $this->getMultipleResults(
-                DAO::select($sql), 
-                $this->className
-            );
-        }
 
         public function findOneById($id){
 
@@ -46,7 +36,8 @@
         }
         public function findBySujet($sujet_id){
             $sql = "SELECT *
-                    FROM ".$this->tableName." v WHERE v.sujet_id = :id";
+                    FROM ".$this->tableName." v WHERE v.sujet_id = :id
+                    ORDER BY date DESC";
 
             return $this->getMultipleResults(
                 DAO::select($sql, ['id' => $sujet_id]), 
@@ -146,7 +137,7 @@
         }
         
         protected function getMultipleResults($rows, $class){
-
+            var_dump($class);die;
             $objects = [];
             if(isset($rows[0])){
                 foreach($rows as $row){
@@ -165,6 +156,7 @@
 
         protected function getOneOrNullResult($row, $class){
             if($row != null){
+                // var_dump($row,$class);die;
                 return new $class($row);
             }
             return false;
@@ -178,5 +170,17 @@
                 $this->className
             );
         }
+        public function findAll(){
+
+            $sql = "SELECT *
+                    FROM ".$this->tableName." a
+                    ORDER BY date DESC";
+            var_dump($sql);die;
+            return $this->getMultipleResults(
+                DAO::select($sql), 
+                $this->className
+            );
+        }
+        
 
     }

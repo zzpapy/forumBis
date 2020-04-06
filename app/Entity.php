@@ -5,6 +5,7 @@
 
         protected function hydrate($data){
             $tab = [];
+            // var_dump($data);die;
             foreach($data as $field => $value){
                 $fieldArray = explode("_", $field);
                 

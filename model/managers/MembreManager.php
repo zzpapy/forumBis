@@ -66,4 +66,27 @@
                 $this->className
             );
         }
+        public function updateConnect($id){
+            // var_dump($_POST);die;
+            $sql = "UPDATE ".$this->tableName."
+            SET connected = '1'
+            WHERE id_membre=".$id;
+            return DAO::update($sql);
+        }
+        public function updateUnConnect($id){
+            // var_dump($_POST);die;
+            $sql = "UPDATE ".$this->tableName."
+            SET connected = '0'
+            WHERE id_membre=".$id;
+            return DAO::update($sql);
+        }
+        public function findConnected(){
+            $sql = "SELECT m.id_membre, m.connected FROM ".$this->tableName." m
+            WHERE connected='1'";
+            // var_dump($sql);die;
+            return $this->getMultipleResults(
+                DAO::select($sql), 
+                $this->className
+            );
+        }
     }

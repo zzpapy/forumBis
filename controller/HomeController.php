@@ -21,12 +21,10 @@
        
 
         public function sujet(){
+           
+           $findSujet = new SujetManager();
             
-            $signal = new SignalementManager();
-            $signal = $signal->findAll();
-            $man = new SujetManager();
-            
-            $sujets = $man->findAll();
+            $sujets =$findSujet->findAll();
             $tab = [];
             if(is_object($sujets)){
                 $man = new MessageManager();
@@ -58,8 +56,14 @@
                     }
                 }
             }
-            $test = new MembreManager();
-            $test = $test->selectUsers();
+            $toto = new MembreManager();
+            $connected = $toto->findConnected(1);
+            var_dump($connected);die;
+            $test = $toto->selectUsers();
+             
+            $signal = new SignalementManager();
+            $signal = $signal->findAll();
+            SESSION::addFlash("connected",$connected);
             SESSION::addFlash( "liste",$sujets);
             SESSION::addFlash( "mess",$tab);
             SESSION::addFlash( "users",$test);
@@ -142,8 +146,13 @@
                             }
                         }
                         $test = new MembreManager();
+                        $connect = $test->updateConnect($user->getId());
+                        $connected = $test->findConnected();
                         $test = $test->selectUsers();
+                        // var_dump($connected);die;
+                        // var_dump($test);
                         $user ->setPassword("");
+                        SESSION::addFlash( "connected",$connected);
                         SESSION::addFlash( "bool",$bool);
                         SESSION::addFlash( "user",$user);
                         SESSION::addFlash( "liste",$sujets);
@@ -173,9 +182,16 @@
             }   
         }
         public function logout(){
+            $test = new MembreManager();
+            $connect = $test->updateUnConnect($_SESSION["user"]->getId());
+            $connected = $test->findConnected();
+            SESSION::addFlash("connected",$connected);
+            // $test = $test->selectUsers();
             unset($_SESSION["user"]);
             unset($_SESSION["admin"]);
             unset($_SESSION["connect"]);
+            var_dump($_SESSION);die;
+            // var_dump($test);
                 header('location:index.php?action=index');
         }
         public function crea_sujet($id){
@@ -205,6 +221,7 @@
                 }
                 if($_GET["sujet_id"] != '' && !isset($_GET["ok"]) && $close == 0){
                     $man = new SujetManager();
+                    
                     if($_FILES["photo"]["name"] != ''){
                         $photo = $this->upload($_FILES);
                         $_POST["photo"] = $photo;
@@ -232,16 +249,30 @@
                 }
                 else if(isset($_GET["ok"])){
                     $man = new SujetManager();
-                    $sujets = $man->findAll(); 
-                    $sujet = $man->findOneById($_GET["sujet_id"]);
-                    $sub = new SubMessManager();
-                    $sub_mess = $sub->findAll();
-                    $man = new MessageManager();
-                    $mess = $man->findBySujet($_GET["sujet_id"]);
-                    return [
-                        "view" => VIEW_DIR."crea_mess.php",
-                        "data" => ["mess"=>$mess,"sujet" => $sujet,"subMess"=>$sub_mess]
-                    ];                    
+                    $exist = $man->findOneById($_GET["sujet_id"]);
+                    // var_dump($exist);die;  
+                    if($exist){
+                        $sujets = $man->findAll(); 
+                        $sujet = $man->findOneById($_GET["sujet_id"]);
+                        $sub = new SubMessManager();
+                        $sub_mess = $sub->findAll();
+                        $man = new MessageManager();
+                        $mess = $man->findBySujet($_GET["sujet_id"]);
+                        return [
+                            "view" => VIEW_DIR."crea_mess.php",
+                            "data" => ["mess"=>$mess,"sujet" => $sujet,"subMess"=>$sub_mess]
+                        ];
+                    }
+                    else{
+                        $msg = "cest pas d'essayer de forcer";
+                            SESSION::addFlash("error",$msg);
+                            
+                            return [
+                                "view" => VIEW_DIR."sujet.php" ,
+                                "data" => "ce compte n'existe pas"                       
+                            ];
+
+                    }
                 }
                 else{
                     $man = new SujetManager();
@@ -361,7 +392,7 @@
             $man = new SignalementManager();
             $sign = $man->add($_POST);
             $msg = "Ce message à bien été signalé au modérateur";
-           $toto = SESSION::addFlash("success",$msg);
+           SESSION::addFlash("success",$msg);
             // var_dump($_SESSION);die;
             return [
                 "view" => VIEW_DIR."sujet.php",
