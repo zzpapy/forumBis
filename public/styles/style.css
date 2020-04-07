@@ -456,11 +456,18 @@ button{
 .cache_crea_sujet:hover{
     box-shadow: 0 0 0;
 }
+.list_users{
+    display: none;
+}
 @media screen and (max-width: 640px) {
     .users{
         display:none;
     }
+    .close_users{
+        margin-right: 2em;
+    }
     .list_users{
+        display: block;
         text-align: center;
         border: 1px solid #aaa;
         width:50%;

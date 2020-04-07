@@ -130,5 +130,9 @@ $(".cache_crea_sujet").on("click",function(){
 })
 $(".list_users").on("click",function(){
   $(".users").css("display","block");
-  $(this).toggleClass("hide");
+  $(this).css("display","none");
+})
+$(".close_users").on("click",function(){
+  $(".users").css("display","none");
+  $(".list_users").css("display","block");
 })

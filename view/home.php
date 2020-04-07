@@ -15,7 +15,7 @@ else{
 ?>
 <div class="home">
     <div class="sticky_home">
-        <div class='users'><h4>membres: <?php echo count($_SESSION["users"])?></h4>
+        <div class='users'><i class="far close_users fa-2x fa-times-circle"></i><h4>membres: <?php echo count($_SESSION["users"])?></h4>
         
         <?php
             foreach ($_SESSION["users"] as $key => $value) {
