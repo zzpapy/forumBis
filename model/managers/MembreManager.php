@@ -59,7 +59,7 @@
             return $tab;
         }
         public function selectUsers(){
-            $sql = "SELECT m.id_membre, m.pseudo FROM ".$this->tableName." m";
+            $sql = "SELECT m.id_membre, m.pseudo, m.connected FROM ".$this->tableName." m";
             // var_dump($this->tableName);die;
             return $this->getMultipleResults(
                 DAO::select($sql), 
@@ -82,7 +82,7 @@
         }
         public function findConnected(){
             $sql = "SELECT m.id_membre, m.connected FROM ".$this->tableName." m
-            WHERE connected='1'";
+            WHERE connected=1";
             // var_dump($sql);die;
             return $this->getMultipleResults(
                 DAO::select($sql), 

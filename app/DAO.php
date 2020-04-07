@@ -80,7 +80,6 @@
             try{
                 // var_dump($sql);die;
                 $stmt = self::$bdd->prepare($sql);
-                // var_dump($sql,$params);die;
                 $stmt->execute($params);
                 if($multiple){
                     $results = $stmt->fetchAll();
@@ -89,6 +88,30 @@
                     }
                 }
                 else $results = $stmt->fetch();
+                
+                // var_dump($results);die;
+                $stmt->closeCursor();
+                // var_dump($sql);die;
+                return ($results == false) ? null : $results;
+            }
+            catch(\Exception $e){
+                echo $e->getMessage();
+            }
+        }
+        public static function selectCol($sql, $params = null, bool $multiple = true)
+        {
+            try{
+                $stmt = self::$bdd->prepare($sql);
+                // var_dump($sql,$params);die;
+                $stmt->execute($params);
+                // var_dump($stmt);die;
+                if($multiple){
+                    $results = $stmt->fetchAll();
+                    if(count($results) == 1){
+                        $results = $results[0];
+                    }
+                }
+                else $results = $stmt->fetchColumn();
                 
                 $stmt->closeCursor();
                 // var_dump($sql);die;

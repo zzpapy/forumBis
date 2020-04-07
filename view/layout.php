@@ -8,7 +8,7 @@
     <meta property="og:title" content="Forum" />
     <meta name="description" content="Forum réalisé dans le cadre de ma formation CDA">
     <meta property="og:url" content="https://www.manucloud.ddns.net/forum" />
-    <meta property="og:description" content="Forum réaliser dans le cadre de ma formation CDA">
+    <meta property="og:description" content="Forum réalisé dans le cadre de ma formation CDA">
     <meta property="og:image" itemprop="image" content="//manucloud.ddns.net/forum/public/images/acheter-un-chat.jpg">
     <!-- <meta property="og:image" itemprop="image" content="//manucloud.ddns.net/forum/public/images/acheter-un-chat.jpg"> -->
     <meta property="og:type" content="website" />

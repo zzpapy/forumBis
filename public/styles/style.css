@@ -435,7 +435,54 @@ button{
 .what{
     display: none;
 }
+.isConnect{
+    width: 1em;
+    height:1em;
+    background: green;
+    border-radius: 50%;
+}
+.cache_crea_sujet{
+    height:17.8em;
+    border: 2em solid #aaa;
+    padding: 2.5em;
+    margin:1em;
+    font-size: 1.5em;
+    box-shadow: 0.3em 0.3em 0.3em #aaa;
+    cursor: pointer;
+    font-weight: bolder;
+    text-transform: uppercase;
+    /* text-shadow: 0.3em 0em 0.3em black; */
+}
+.cache_crea_sujet:hover{
+    box-shadow: 0 0 0;
+}
 @media screen and (max-width: 640px) {
+    .users{
+        display:none;
+    }
+    .list_users{
+        text-align: center;
+        border: 1px solid #aaa;
+        width:50%;
+        margin: auto;
+        padding: 0.5em;
+        box-shadow: .1em .1em .1em #aaa;
+    }
+    .cache_crea_sujet{
+        height:auto;
+        border: 2em solid #aaa;
+        padding: .2em;
+        margin:1em;
+        /* font-size: 1.5em; */
+        box-shadow: 0.3em 0.3em 0.3em #aaa;
+        cursor: pointer;
+        font-weight: bolder;
+        text-transform: uppercase;
+        /* text-shadow: 0.3em 0em 0.3em black; */
+    }
+    .cache_crea_sujet:hover{
+        box-shadow: 0 0 0;
+    }
     .head a{
         background: white;
         color: black;

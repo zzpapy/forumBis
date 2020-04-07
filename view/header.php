@@ -43,7 +43,7 @@
         
         
         if(isset($_SESSION["user"])){
-            echo "<a href='index.php?action=userMess'>mes message</a>"; 
+            echo "<a href='index.php?action=userMess'>mes messages</a>"; 
         }               
         echo "<a href='index.php?action=findPhoto'>Gallerie</a>";
         echo "<a href='index.php?action=sujet'>Accueil</a>";

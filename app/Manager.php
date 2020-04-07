@@ -21,6 +21,18 @@
                 $this->className
             );
         }
+        public function findOneByIdUser($id){
+
+            $sql = "SELECT  a.id_membre, a.pseudo, a.connected
+                    FROM ".$this->tableName." a
+                    WHERE a.id_".$this->tableName." = :id
+                    ";
+            // var_dump($id);die;
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['id' => $id], false), 
+                $this->className
+            );
+        }
 
         public function findOneByName($nom){
             // var_dump($this->tableName);die;
@@ -33,6 +45,15 @@
                 DAO::select($sql, ['nom' => $nom], false), 
                 $this->className
             );
+        }
+        public function findOneByNameBis($nom,$champ){
+            // var_dump($this->tableName);die;
+            $sql = "SELECT ".$champ."
+                    FROM ".$this->tableName." a
+                    WHERE a.pseudo = :nom
+                    ";
+
+            return DAO::selectCol($sql, ['nom' => $nom], false);
         }
         public function findBySujet($sujet_id){
             $sql = "SELECT *
@@ -137,7 +158,7 @@
         }
         
         protected function getMultipleResults($rows, $class){
-            var_dump($class);die;
+            // var_dump($class,$class);die;
             $objects = [];
             if(isset($rows[0])){
                 foreach($rows as $row){
@@ -153,6 +174,15 @@
 
             return $objects;
         }
+        // protected function getMultipleResults($rows, $class){
+           
+        //     if(!empty($rows)){
+        //         foreach ($rows as $row) {
+        //             yield new $class($row);
+        //         }
+        //     }
+           
+        // }
 
         protected function getOneOrNullResult($row, $class){
             if($row != null){
@@ -175,7 +205,7 @@
             $sql = "SELECT *
                     FROM ".$this->tableName." a
                     ORDER BY date DESC";
-            var_dump($sql);die;
+            // var_dump($sql);die;
             return $this->getMultipleResults(
                 DAO::select($sql), 
                 $this->className

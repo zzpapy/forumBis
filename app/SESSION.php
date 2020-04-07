@@ -1,7 +1,7 @@
 <?php
 	namespace App;
 	
-	class SESSION{
+	class Session{
 
         
 	// 	public static function sessionStart($user){

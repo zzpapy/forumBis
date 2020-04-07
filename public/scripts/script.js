@@ -124,3 +124,11 @@ function readURL(input) {
       reader.readAsDataURL(input.files[0]);
   }
 }
+$(".cache_crea_sujet").on("click",function(){
+  $(".crea_sujet").toggleClass("hide");
+  $(this).toggleClass("hide");
+})
+$(".list_users").on("click",function(){
+  $(".users").css("display","block");
+  $(this).toggleClass("hide");
+})

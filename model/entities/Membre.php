@@ -7,11 +7,11 @@
 
         private $id;
         private $pseudo;
-        private $password;
+        // private $password;
         private $connected;
 
         public function __construct($data){ 
-            // var_dump($data);die;        
+        //     var_dump($data);die;      
             $this->hydrate($data);        
         }
 
@@ -35,26 +35,6 @@
         public function setPseudo($pseudo)
         {
                 $this->pseudo = $pseudo;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of password
-         */ 
-        public function getPassword()
-        {
-                return $this->password;
-        }
-
-        /**
-         * Set the value of password
-         *
-         * @return  self
-         */ 
-        public function setPassword($password)
-        {
-                $this->password = $password;
 
                 return $this;
         }

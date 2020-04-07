@@ -6,7 +6,7 @@
     use Model\Managers\MessageManager;
     use Model\Managers\SubMessManager;
     use Model\Managers\SignalementManager;
-    use APP\SESSION;
+    use APP\Session;
     use APP\Upload;
     
     
@@ -21,7 +21,9 @@
        
 
         public function sujet(){
-           
+            $toto = new MembreManager();
+            $connected = $toto->findConnected();
+            // var_dump($connected);die;
            $findSujet = new SujetManager();
             
             $sujets =$findSujet->findAll();
@@ -56,18 +58,16 @@
                     }
                 }
             }
-            $toto = new MembreManager();
-            $connected = $toto->findConnected(1);
-            var_dump($connected);die;
+           
             $test = $toto->selectUsers();
              
             $signal = new SignalementManager();
             $signal = $signal->findAll();
-            SESSION::addFlash("connected",$connected);
-            SESSION::addFlash( "liste",$sujets);
-            SESSION::addFlash( "mess",$tab);
-            SESSION::addFlash( "users",$test);
-            SESSION::addFlash( "signal",$signal);
+            Session::addFlash("connected",$connected);
+            Session::addFlash( "liste",$sujets);
+            Session::addFlash( "mess",$tab);
+            Session::addFlash( "users",$test);
+            Session::addFlash( "signal",$signal);
     
             return [
                 "view" => VIEW_DIR."sujet.php",
@@ -100,16 +100,19 @@
         }
         public function connect(){
             $man = new MembreManager();
-            $user = $man -> findOneByName($_POST["pseudo"]);
+            // $user = $man -> findOneByName($_POST["pseudo"]);
+            $user = $man -> findOneByNameBis($_POST["pseudo"],"id_membre");
             $bool = false;
             if($user){
-                    if( password_verify($_POST["password"], $user->getPassword()) && $_POST["pseudo"] == $user->getPseudo()){
-                        $bool = true;
-                        SESSION::addFlash("user",$user);
-                        if($user->getPseudo() == "zzpapy"){
-                            SESSION::addFlash("admin",1);
+                $pass = $man -> findOneByNameBis($_POST["pseudo"],"password");
+                $pseudo = $man -> findOneByNameBis($_POST["pseudo"],"pseudo");
+                if( password_verify($_POST["password"], $pass) && $_POST["pseudo"] == $pseudo){
+                    $user = $man->findOneByIdUser($user);
+                    $bool = true;
+                    if($user->getPseudo() == "zzpapy"){
+                            Session::addFlash("admin",1);
                             $msg = "Vous êtes maintenant connecté";
-                            SESSION::addFlash("success",$msg);
+                            Session::addFlash("success",$msg);
                         }
                         
                         
@@ -151,20 +154,22 @@
                         $test = $test->selectUsers();
                         // var_dump($connected);die;
                         // var_dump($test);
-                        $user ->setPassword("");
-                        SESSION::addFlash( "connected",$connected);
-                        SESSION::addFlash( "bool",$bool);
-                        SESSION::addFlash( "user",$user);
-                        SESSION::addFlash( "liste",$sujets);
-                        SESSION::addFlash( "mess",$tab);
-                        SESSION::addFlash( "users",$test);
-                        SESSION::addFlash( "connect",true);
+                        
+                        Session::addFlash( "connected",$connected);
+                        Session::addFlash( "bool",$bool);
+                        Session::addFlash( "user",$user);
+                        
+                    // var_dump($_SESSION["user"]);die;
+                        Session::addFlash( "liste",$sujets);
+                        Session::addFlash( "mess",$tab);
+                        Session::addFlash( "users",$test);
+                        Session::addFlash( "connect",true);
                             
                         header('location:index.php?action=sujet');die();
                         }                   
                         else{
                             $msg = "Une erreur s'est produite merci de vérifier vos éléments de connexion";
-                            SESSION::addFlash("error",$msg);
+                            Session::addFlash("error",$msg);
                             
                             return [
                                 "view" => VIEW_DIR."sujet.php" ,
@@ -174,7 +179,7 @@
                     }
                     else{
                         $msg = "Une erreur s'est produite merci de vérifier vos éléments de connexion";
-                        SESSION::addFlash("error",$msg);
+                        Session::addFlash("error",$msg);
                         return [
                             "view" => VIEW_DIR."sujet.php" ,
                     "data" => "le mot de passe ou le pseudo est incorrect !!!"                       
@@ -183,14 +188,15 @@
         }
         public function logout(){
             $test = new MembreManager();
+            // var_dump($_SESSION["user"]);die;
             $connect = $test->updateUnConnect($_SESSION["user"]->getId());
             $connected = $test->findConnected();
-            SESSION::addFlash("connected",$connected);
+            Session::addFlash("connected",$connected);
             // $test = $test->selectUsers();
             unset($_SESSION["user"]);
             unset($_SESSION["admin"]);
             unset($_SESSION["connect"]);
-            var_dump($_SESSION);die;
+            // var_dump($_SESSION);die;
             // var_dump($test);
                 header('location:index.php?action=index');
         }
@@ -204,8 +210,8 @@
             $sujets = $man->findAll(); 
             if($sujet != ""){
                 $msg = "Un nouveau sujet viens d'être créer";
-                SESSION::addFlash("success",$msg);
-                SESSION::addFlash("liste",$sujets);
+                Session::addFlash("success",$msg);
+                Session::addFlash("liste",$sujets);
             }
             header(('location:index.php?action=crea_mess&membre_id='.$_SESSION["user"]->getId().'&sujet_id='.$sujet.''));
             die();
@@ -234,11 +240,11 @@
                     $log = $man->add($_POST);
                     if($log != ""){
                         $msg = "Un nouveau message viens d'être créer";
-                        SESSION::addFlash("success",$msg);
+                        Session::addFlash("success",$msg);
                     } 
                     $mess = $man->findBySujet($_GET["sujet_id"]);
                     if(!isset($_SESSION["views"][$_GET["sujet_id"]])){
-                        SESSION::addViews($_GET["sujet_id"],1);
+                        Session::addViews($_GET["sujet_id"],1);
                     }
                     else{
                         $_SESSION["views"][$_GET["sujet_id"]]++;
@@ -265,7 +271,7 @@
                     }
                     else{
                         $msg = "cest pas d'essayer de forcer";
-                            SESSION::addFlash("error",$msg);
+                            Sssion::addFlash("error",$msg);
                             
                             return [
                                 "view" => VIEW_DIR."sujet.php" ,
@@ -279,7 +285,7 @@
                     $sujets = $man->findAll();
                     if($_GET["close"]==1){
                         $msg = "ce sujet a été clôturé";
-                        SESSION::addFlash("error",$msg);
+                        Session::addFlash("error",$msg);
                     }
                     return [
                         "view" => VIEW_DIR."sujet.php",
@@ -290,22 +296,22 @@
             else{
                 
                 if(!isset($_SESSION["views"][$_GET["sujet_id"]])){
-                    SESSION::addViews($_GET["sujet_id"],1);
+                    Session::addViews($_GET["sujet_id"],1);
                 }
                 else{
                     $_SESSION["views"][$_GET["sujet_id"]]++;
                 }
                 $msg = "vous devez d'abord vous connecter...";
-                SESSION::addFlash("error",$msg);
+                Session::addFlash("error",$msg);
                 $users = new MembreManager();
                 $users = $users->selectUsers();
                 $man = new SujetManager();
                 $mess = new MessageManager();
                 $mess = $mess->findAll();
                 $sujets = $man->findAll(); 
-                SESSION::addFlash("users",$users);
-                SESSION::addFlash("liste",$sujets);
-                SESSION::addFlash("mess",$mess);
+                Session::addFlash("users",$users);
+                Session::addFlash("liste",$sujets);
+                Session::addFlash("mess",$mess);
                 if(isset($_SESSION["liste"]) && !is_object($_SESSION["liste"]) ){
                     $i = 0;
                     // var_dump($_SESSION["mess"]);die;
@@ -359,7 +365,7 @@
             $man = new MembreManager();
             $man-> deleteUser($_POST["membre_id"]);
             $users = $man->selectUsers();
-            SESSION::addFlash("users",$users);
+            Session::addFlash("users",$users);
             // var_dump($_POST);die;
             header('location:index.php?action=sujet');
         }
@@ -392,7 +398,7 @@
             $man = new SignalementManager();
             $sign = $man->add($_POST);
             $msg = "Ce message à bien été signalé au modérateur";
-           SESSION::addFlash("success",$msg);
+           Session::addFlash("success",$msg);
             // var_dump($_SESSION);die;
             return [
                 "view" => VIEW_DIR."sujet.php",
@@ -432,7 +438,7 @@
         public function findPhoto(){
             $man = new MembreManager();
             $photos = $man->findPhoto();
-            SESSION::addFlash("photo",$photos);
+            Session::addFlash("photo",$photos);
             return [
                 "view" => VIEW_DIR."gallerie.php",
                 "data" => ""
@@ -442,7 +448,7 @@
             $man = new SujetManager();
             $test = $man->close($id);
             $liste= $man->findAll();
-            SESSION::addFlash("liste",$liste);
+            Session::addFlash("liste",$liste);
             // var_dump($test);die;
             return [
                 "view" => VIEW_DIR."sujet.php",

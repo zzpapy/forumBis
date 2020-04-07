@@ -1,8 +1,12 @@
 <div class="list_sujet">
     <?php 
-    // var_dump($_SESSION);die;
+    // var_dump($_SESSION);die; 
     if(isset($_SESSION["user"])){ 
-        echo '<div class="crea_sujet">
+        echo "<div class='cache_crea_sujet'>
+        <p>Vous souhaitez créer un sujet cliquer ici !!!</p>
+        <input class='input' type='text' name='titre'>
+        <p>Ou particper à une conversation existante ci-dessous</p></div>";
+        echo '<div class="crea_sujet hide">
         <p>Une question, un problème ou juste envie de discuter créez un sujet ici</p>
         <form action="index.php?action=crea_sujet" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="membre_id" value='.$_SESSION["user"]->getId().'>
