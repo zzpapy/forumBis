@@ -69,9 +69,10 @@
         public function add($data){
            
             if(isset($data["pseudo"])){
-                
+               
                 $data["pseudo"] = filter_var ( $data["pseudo"], FILTER_SANITIZE_STRING);
                 $data["password"] = password_hash($data["password"], PASSWORD_DEFAULT);
+                                                                    // PASSWORD_ARGON2I
                 unset($data["crea"]);
                 
                 $keys = array_keys($data);
@@ -84,33 +85,52 @@
                 return DAO::insert($sql);
             }
             else if(isset( $data["titre"])){
+                
                 if($data["titre"] != ''){
-                    $data["membre_id"] = filter_var ( $data["membre_id"], FILTER_SANITIZE_STRING);
-                    $data["titre"] = filter_var ( $data["titre"], FILTER_SANITIZE_STRING);
-                    unset($data["crea_sujet"]);
-                    $date = new \DateTime();
-                    $date = date_format($date, 'Y-m-d H:i:s');
-                    $data["date"] = $date;
-                    $keys = array_keys($data);
-                    $values = array_values($data);
-                    
-                    $sql = "INSERT INTO ".$this->tableName."
+                    $filtre = filter_var ( $data["titre"], FILTER_SANITIZE_STRING);
+                    if($filtre == ""){
+                        // var_dump($filtre);die;
+                        $msg = "c'est pas bien d'essayer de forcer";
+                        Session::addFlash("error",$msg);
+                        header("location: index.php?ctrl=home&action=index");die();
+                    }
+                    else{
+                        $data["membre_id"] = filter_var ( $data["membre_id"], FILTER_SANITIZE_STRING);
+                        $data["titre"] = filter_var ( $data["titre"], FILTER_SANITIZE_STRING);
+                        unset($data["crea_sujet"]);
+                        $date = new \DateTime();
+                        $date = date_format($date, 'Y-m-d H:i:s');
+                        $data["date"] = $date;
+                        $keys = array_keys($data);
+                        $values = array_values($data);
+                        
+                        $sql = "INSERT INTO ".$this->tableName."
                         (".implode(',', $keys).")
                         VALUES
                         ('".implode("','",$values)."')";
-                    return DAO::insert($sql);
+                        return DAO::insert($sql);
+                    }
                 }
+               
+
             }
             else if(isset($data["content"]) && !isset($data["message_id"])){
-                $_POST = '';
-                if($data["content"] != ''){
-                    $data["membre_id"] = filter_var ( $data["membre_id"], FILTER_SANITIZE_STRING);
-                    $data["sujet_id"] = filter_var ( $data["sujet_id"], FILTER_SANITIZE_STRING);
-                    $data["content"] = filter_var ( $data["content"], FILTER_SANITIZE_STRING);
+                $filtre = filter_var( $data["content"], FILTER_SANITIZE_STRING);
+                if($filtre == ""){
+                    $msg = "c'est pas bien d'essayer de forcer";
+                    Session::addFlash("error",$msg);
+                    header("location: index.php?ctrl=home&action=index");die();
+                }
+                else{
+                    $data["membre_id"] = filter_var( $data["membre_id"], FILTER_SANITIZE_STRING);
+                    $data["sujet_id"] = filter_var( $data["sujet_id"], FILTER_SANITIZE_STRING);
+                    $data["content"] = filter_var( $data["content"], FILTER_SANITIZE_STRING);
+
                     $date = new \DateTime();
                     $date = date_format($date, 'Y-m-d H:i:s');
                     $data["date"] = $date;
                     unset($data["crea_mess"]);
+                    // var_dump($data);die;
                     $keys = array_keys($data);
                     $values = array_values($data);
                     
@@ -121,8 +141,14 @@
                     return DAO::insert($sql);
                 }
             }
-            else if(!empty($_POST) && !isset($_POST["del"])){
-                if(isset($_POST["content"]) && $_POST["content"] != ''){
+            else if(!empty($_POST) && !isset($_POST["del"]) && !isset($_POST["signal"])){
+                $filtre = filter_var( $data["content"], FILTER_SANITIZE_STRING);
+                if($filtre ==  ""){
+                    $msg = "c'est pas bien d'essayer de forcer";
+                    Session::addFlash("error",$msg);
+                    header("location: index.php?ctrl=home&action=index");die();
+                }
+                else if(isset($_POST["content"]) && $_POST["content"] != ''){
                     $data["membre_id"] = filter_var ( $data["membre_id"], FILTER_SANITIZE_STRING);
                     $data["message_id"] = filter_var ( $data["message_id"], FILTER_SANITIZE_STRING);
                     $data["content"] = filter_var ( $data["content"], FILTER_SANITIZE_STRING);
@@ -141,8 +167,9 @@
                     return DAO::insert($sql);
                 }
             }
-            else if(isset($_POST["del"])){
-                unset($_POST["del"]);
+            else if(isset($_POST["signal"])){
+                // var_dump($_POST);die;
+                unset($_POST["signal"]);
                 // var_dump($_POST);die;
                 $keys = array_keys($_POST);
                 $values = array_values($_POST);

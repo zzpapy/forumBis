@@ -3,6 +3,7 @@
     
     use App\Manager;
     use App\DAO;
+    use App\Session;
     use Model\Entities\User;
 
     class MessageManager extends Manager{
@@ -58,10 +59,7 @@
                    WHERE a.sujet_id =".$sujet;
             
             // var_dump($id);
-            return $this->getOneOrNullResult(
-                DAO::select($sql), 
-                $this->className
-            );
+            return DAO::select($sql);
        
             // return $this->getMultipleResults(
             //     DAO::select($sql,["sujet"=>$sujet], false),
@@ -71,11 +69,22 @@
             
         }
         public function updateMess(){
-            // var_dump($_POST);die;
-            $sql = "UPDATE ".$this->tableName."
-            SET content = '".$_POST["content"]."'
-            WHERE id_message=".$_POST["id_message"];
-            return DAO::update($sql);
+            $filtre = filter_var ( $_POST["content"], FILTER_SANITIZE_STRING);
+            if($filtre !=  $_POST["content"]){
+                $msg = "c'est pas bien d'essayer de forcer";
+                Session::addFlash("error",$msg);
+                header("location: index.php?ctrl=home&action=index");die();
+                // return [
+                //     "view" => VIEW_DIR."sujet.php",
+                //     "data" =>""
+                // ];
+            }
+            else{
+                $sql = "UPDATE ".$this->tableName."
+                SET content = '".$_POST["content"]."'
+                WHERE id_message=".$_POST["id_message"];
+                return DAO::update($sql);
+            }
         }
         public function findByUserId($membre_id){
             // var_dump($this->tableName);die;
@@ -88,6 +97,20 @@
                 $this->className
             );
         } 
+        public function modif($id){
+            $man = new MessageManager();
+            $test = $man->findOneById($id);
+            $content = $test->getContent();
+            // var_dump($_GET);die;
+            return [
+                "view" => VIEW_DIR."modif.php",
+                "data" => [
+                    "mess" => $test,
+                    "content" => $content,
+                    "sujet_id" => $_GET["sujet_id"]
+                ]
+            ];
+        }
                
        
     }

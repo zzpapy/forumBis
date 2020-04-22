@@ -1,4 +1,4 @@
-<?php use App\SESSION; ?>
+<?php use App\Session; ?>
 <div class="sticky">
     <!-- <i class='fas change fa-palette fa-3x'></i>
     <input id="choix" class="hide "  type="color"> -->
@@ -14,14 +14,17 @@
 
         echo "</div>";
     }
-    if(isset($_SESSION["user"])){
-        echo "<a href='index.php?action=logout'>logout</a>";
-    }        
     ?>
     </h1>
     <div class="head">
         
         <?php 
+        if(isset($_SESSION["user"])){
+            echo "<div>";
+            echo "<span>Votre session expire dans : </span>";
+            echo "<div style='width: 50%;margin: auto;' id='SecondsUntilExpire'></div>";
+            echo "</div>";
+        }
         echo "<div class='recherche'>";
         echo "<div class='recherche'>recherche sujet</div>";
         echo "<input type='text' id='recherche'>";
@@ -37,16 +40,18 @@
         else{
             $nb_signal = 0;
         }
-        if(isset($_SESSION["admin"])){
-            echo "<a href='index.php?action=affichSignal'>SIGNALEMENT(".$nb_signal.")</a>";
-        }
+        echo "<a href='index.php?action=sujet'>Accueil</a>";
+        echo "<a href='index.php?ctrl=mess&action=findPhoto'>Galerie</a>";
         
         
         if(isset($_SESSION["user"])){
-            echo "<a href='index.php?action=userMess'>mes messages</a>"; 
+            echo "<a href='index.php?ctrl=mess&action=userMess'>mes messages</a>"; 
+            echo "<a href='index.php?ctrl=groupe&action=myGroups&id=".$_SESSION["user"]->getId()."'>mes groupes</a>"; 
+            echo "<a href='index.php?ctrl=security&action=logout'>logout</a>";
         }               
-        echo "<a href='index.php?action=findPhoto'>Gallerie</a>";
-        echo "<a href='index.php?action=sujet'>Accueil</a>";
+        if(isset($_SESSION["admin"])){
+            echo "<a href='index.php?ctrl=mess&action=affichSignal'>SIGNALEMENT(".$nb_signal.")</a>";
+        }
        
         ?>
     </div>
@@ -72,6 +77,7 @@
 <div class="success">
 <?php 
         if(isset($_SESSION["success"])){
+            // var_dump($_SESSION["success"]);die;
             $msg = SESSION::getFlash("success");
         }
         else{

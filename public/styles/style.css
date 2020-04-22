@@ -1,9 +1,84 @@
 *{
     box-sizing: border-box;
+    font-size: 1em;
+}
+.participe{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+}
+.participants{
+    flex: 1;
+}
+.groupe{
+    margin: 1em;
+    border: 1px solid green;
+    border-bottom: none;
+}
+table{
+    border-top: 2px solid green;
+    border-right: 2px solid green;
+    border-collapse :collapse;
+    margin-bottom: 1em;
+}
+table>tbody>tr:first-child>td:first-child{
+    background-color: #075400;
+    color: white;
+    background-image: url("https://www.transparenttextures.com/patterns/tactile-noise-light.png");
+     border-collapse :collapse;
+}
+table>tbody>tr:first-child>td:nth-child(2){
+    position: relative;
+}
+table>tbody>tr:nth-child(2)>td:first-child{
+    /* border: none; */
+     border-collapse :collapse;
+}
+.content_table{
+    padding: 0.5em 1em;
+}
+tr>td:first-child,.subMess{
+    border-right: 1px solid green;
+}
+.min{
+    width: 0;
+}
+table>tbody>tr:nth-child(2)>td:nth-child(2){
+    border-top: 1px solid green;
+    border-bottom: 2px solid green;
+    width:2%
+
+}
+tr td:first-child{
+    width: 25%;
+}
+td{
+    text-align: left;
+}
+.command{
+    display: inline-block;
+   
+}
+.contain_command{
+    width: 25%;
+    position: absolute;
+    right: 0em;
+    text-align: right;
+}
+.outils:hover .contain_command{
+    display: block;
+}
+.flex{
+    display: flex;
+    justify-content: space-around;
 }
 body{
     font-family: 'Open Sans', sans-serif;
     margin: 0;
+}
+textarea{
+    font-family: 'Open Sans', sans-serif;
+    width: 90%;
 }
 .modal,.modal1{
     position: fixed;
@@ -64,17 +139,26 @@ a{
 img{
     width: 100%;
 }
+.menu{
+    display: flex;
+}
 .sticky{
-    background: black;
+    background-color: #075400;
+    background-image: url("https://www.transparenttextures.com/patterns/tactile-noise-light.png");
     color: white;
     position: sticky;
     top: 0;
     z-index: 1;
+    /* font-size: 1.5em; */
+}
+.close_users{
+    display: none;
 }
 .titre,.head{
     margin: 0;
     display:flex;
     justify-content: space-evenly;
+    align-items: center;
     flex-wrap: wrap;
     padding:0.5em 0;
 }
@@ -91,7 +175,7 @@ img{
     text-align: center;
 }
 .head_mess{
-    margin-right: 0.5em;
+    padding:0.5em 0;
     position:relative;
     display: flex;
     justify-content: space-around;
@@ -99,6 +183,15 @@ img{
 .head a{
     text-decoration: none;
     color: white;
+    /* font-size: 1.5em; */
+    padding: 0 0.5em;
+    border: 1px solid white;
+    box-shadow: 0 0.1em;
+}
+a:hover{
+    box-shadow: 0 ;
+}
+.titre{
     font-size: 1.5em;
 }
 
@@ -148,6 +241,7 @@ img{
 .list_sujet{
     flex: 1;
     text-align: center;
+    margin: auto;
 }
 .close{
     color: red;
@@ -159,7 +253,11 @@ img{
 }
 .list a{
     color:black;
+    display: flex;
+    align-items: center;
+    flex: 1;
 }
+
 .label-file {
     cursor: pointer;
     color: #00b1ca;
@@ -183,23 +281,25 @@ img{
 }
 .crea_sujet{
     text-align: center;
+    width: 100%;
 }
 .post{
     flex: 1;
     margin-right: 0.5em;
 }
 .post_titre{
-    /* flex: 1;
-    margin-right: 0.5em; */
+    flex-direction: column;
     display: flex;
     align-items: center;
 
 }
-.post_titre span{
+.post_titre div{
     flex: 1;
-    font-size: 1.5em;
-    padding: 1em;
+    /* font-size: 1.5em; */
+    margin-bottom: 0.5em;
     border: 1px solid #aaa;
+    margin-left: 0.3em;
+    height: auto;
 }
 .home{
     width: 25%;
@@ -211,7 +311,31 @@ img{
     border: 2px solid green;
     padding:1em;
     position: relative;
-    margin-top: 1em;
+    margin: 1em auto;
+}
+.users_groupe{
+    height: 12.5em;
+    overflow-y: scroll;
+    border: 2px solid green;
+    padding:1em;
+    position: relative;
+    margin: 1em auto;
+}
+.users_discuss{
+    height: 12.5em;
+    overflow-y: scroll;
+    border: 2px solid green;
+    padding:1em;
+    position: relative;
+    /* margin: 1em auto; */
+}
+.ajout form{
+    display: flex;
+    justify-content: space-around;
+}
+.ajout form div input[type="submit"]{
+    position: sticky;
+    top: 0;
 }
 .users h4{
     text-align: center;
@@ -262,15 +386,20 @@ img{
 }
 
 .message,.sujet_style{
-    justify-content: space-between;
-    flex: 1;
-    align-items: center;
-    padding: 0.5em 0.5em;
     margin: 1em;
     font-size: 0.9em;
 }
+/* .views div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+} */
 .photo{
-    width: 12em;
+    width:10em;
+    margin:0.5em;
+}
+.photo_sujet{
+    width: 5em;
     /* height: 8em; */
     overflow: hidden;
     padding: 0.5em;
@@ -284,16 +413,17 @@ img{
 }
 .message_list{
     margin: 0.5em;
-    background: green;
-    color: white;
-    border-radius: 15px;
+
 }
 #blah{
-    width: 7em;
+    width: 4em;
+}
+.mess_create{
+    margin: 0.5em;
 }
 .mess{
     background: white;
-    border: 1px solid #aaa;
+    /* border: 1px solid #aaa; */
     color: black;
 }
 .message > div:first-child{
@@ -308,6 +438,7 @@ img{
 .views{
     display: flex;
     justify-content: space-between;
+    padding: 0.2em 1em;
 }
 .info{
     display: flex;
@@ -315,18 +446,18 @@ img{
     flex: 1;
 }
 .content_mess{
-    width: 75%;
+    /* width: 50%; */
     margin:auto;
-    font-size: 1.5em;
+    /* font-size: 1.5em; */
 }
 .block_mess{
     display: flex;
     flex-direction: column;
-    border: 1px solid #aaa;
+    /* border: 1px solid #aaa; */
     margin: 0.5em;
 }
 .block_mess>p{
-    font-size: 1.3em;
+    /* font-size: 1.3em; */
     text-decoration: underline;
 }
 .block_mess .bordure:nth-child(even){
@@ -334,13 +465,13 @@ img{
 
 }
 .subMess{
-    width: 90%;
+    /* width: 90%; */
     margin:auto;
     border-top:1px solid green;
     margin:0.5em auto;
 }
 .separator{
-    width: 50%;
+    /* width: 5%; */
     border-bottom: 2px solid green;
     margin: 0.5em auto;
     
@@ -355,7 +486,7 @@ img{
     border: none;
     background: #404040;
     color: #ffffff !important;
-    padding: 1em;
+    padding: 0.5em;
     text-transform: uppercase;
     border-radius: 6px;
     display: inline-block;
@@ -395,7 +526,7 @@ img{
     cursor: pointer;
 }
 .crea_mess,.crea_sujet{
-    font-size: 1.5em;
+    /* font-size: 1.5em; */
 }
 .crea_user a{
     color: white;
@@ -441,30 +572,130 @@ button{
     background: green;
     border-radius: 50%;
 }
-.cache_crea_sujet{
-    height:17.8em;
-    border: 2em solid #aaa;
-    padding: 2.5em;
-    margin:1em;
-    font-size: 1.5em;
-    box-shadow: 0.3em 0.3em 0.3em #aaa;
+.cache_crea_sujet,.cache_crea_mess,.cache_crea_discuss{
+    padding: 1em;
+    margin:1em auto;
+    width: 45%;
+    border: 1px solid green;
+    background-color: #aba;
+    border-radius: 15px;
+    /* font-size: 1.5em; */
+    box-shadow: 0.1em 0.1em 0.1em #aaa;
     cursor: pointer;
     font-weight: bolder;
     text-transform: uppercase;
     /* text-shadow: 0.3em 0em 0.3em black; */
 }
-.cache_crea_sujet:hover{
-    box-shadow: 0 0 0;
+.crea_discuss{
+    margin-top: 1em;
+    width: 100%;
+}
+.cache_crea_sujet:hover,.cache_crea_discuss:hover{
+    box-shadow: -1px -1px 0;
 }
 .list_users{
     display: none;
 }
+.flex div{
+    /* width: 50%; */
+    flex-direction: column;
+    justify-content: space-around;
+}
+.trash{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.trash > div{
+    margin-left: 0.5em;
+}
+.titre_mob{
+    /* font-size: 2em; */
+    border: 1px solid #aaa;
+}
+.titre_mess{
+    flex: 1;
+}
+.fa-ban,.fa-hand-paper{
+    color: red;
+    background: white;
+    cursor: pointer;
+}
+.fa-trash-alt,.fa-times-circle{
+    cursor: pointer;
+}
+.pseudo_accueil{
+    display: none;
+}
+.affich_recherche{
+    width: 50%;
+    position: fixed;
+    top: 10em;
+    background: white;
+    z-index: 1;
+    margin-left: 15%;
+}
 @media screen and (max-width: 640px) {
+    .menu{
+        flex-direction: column;
+    }
+    .pseudo_accueil{
+        display: block;
+        width: 50%;
+        text-align: center;
+        margin: 0.5em auto;
+    }
+    .cache_crea_mess{
+        width: 90%;
+        padding: 0;
+        font-size: 0.8em;
+    }
+    .flex{
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    .titre_mob{
+        /* font-size: 1.5em; */
+    }
+    .trash{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        font-size: 0.8em;
+    }
+    .button, .button_form {
+        border: none;
+        background: #404040;
+        color: #ffffff !important;
+        padding: 0em;
+        /* text-transform: uppercase; */
+        border-radius: 6px;
+        /* display: inline-block; */
+        transition: all 0.3s ease 0s;
+        /* position: absolute; */
+        cursor: pointer;
+    }
+    .photo{
+        width:4em;
+    }
+    .users_groupe{
+        height: 12.5em;
+        overflow-y: scroll;
+        border: 2px solid green;
+        padding:1em;
+        position: relative;
+        margin: 1em auto;
+    }
     .users{
         display:none;
     }
     .close_users{
         margin-right: 2em;
+        display: block;
+    }
+   
+    .head_mess{
+        display: flex;
     }
     .list_users{
         display: block;
@@ -475,19 +706,18 @@ button{
         padding: 0.5em;
         box-shadow: .1em .1em .1em #aaa;
     }
-    .cache_crea_sujet{
+    .cache_crea_sujet,.cache_crea_discuss{
         height:auto;
-        border: 2em solid #aaa;
-        padding: .2em;
-        margin:1em;
-        /* font-size: 1.5em; */
-        box-shadow: 0.3em 0.3em 0.3em #aaa;
+        width: 75%;
+        margin:1em auto;
+        font-size: 1em;
+        box-shadow: 0.1em 0.1em 0.1em #aaa;
         cursor: pointer;
         font-weight: bolder;
         text-transform: uppercase;
         /* text-shadow: 0.3em 0em 0.3em black; */
     }
-    .cache_crea_sujet:hover{
+    .cache_crea_sujet:hover,.cache_crea_discuss:hover{
         box-shadow: 0 0 0;
     }
     .head a{
@@ -574,6 +804,10 @@ button{
         overflow-x: scroll;
         width: 100%;
     }
+    .block_mess{
+        width: 95%;
+        margin: auto;
+    }
     .block_mess .bordure:nth-child(even),.block_mess .bordure:nth-child(odd){
         align-self: center;
     }
@@ -588,20 +822,11 @@ button{
     /* display: block; */
     z-index: 3;
     }
-    .crea_mess,.crea_sujet{
-        /* position: sticky;
-        top: 0em;
-        z-index: 1;
-        background:  rgb(170, 170, 170,0.5);
-        z-index: 2; */
-    }
     .crea_mess h3{
         text-decoration: underline;
         font-size: 1em;
     }
-    .head_mess{
-        display: block;
-    }
+   
     head a{
         font-size: 1em;
     }
@@ -631,10 +856,11 @@ button{
     .bordure{
         display: flex;
         flex-direction: column;
+        position: relative;
     }
-    .bordure :nth-child(1){order:3}
-    .bordure :nth-child(2){order:1}
-    .bordure :nth-child(3){order:2}
+    .bordure :nth-child(1){order:1}
+    .bordure :nth-child(2){order:2}
+    .bordure :nth-child(3){order:3}
     .blink {
         animation: blink-animation 1s steps(5, start) infinite;
         -webkit-animation: blink-animation 1s steps(5, start) infinite;

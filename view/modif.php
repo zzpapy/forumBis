@@ -17,7 +17,7 @@
                 ?>
                 <img class="photo"src="<?php echo $photo?>" alt="">
             <!-- </div> -->
-            <span> <form action="index.php?action=modifContent" method="POST">
+            <span> <form action="index.php?ctrl=mess&action=modifContent" method="POST">
                 <input type="text" name="content" value="<?php echo $result["data"]["content"] ?>">
                 <input type="hidden" name="id_message" value="<?php echo $result["data"]["mess"]->getId() ?>">
                 <input type="hidden" name="membre_id" value="<?php echo $result["data"]["mess"]->getMembre()->getId() ?>">

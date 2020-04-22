@@ -11,10 +11,15 @@
                     $id_mess = $value->getMessage()->getId();
                     $author = $value->getMessage()->getMembre()->getPseudo();
                     $author_signal = $value->getMembre()->getPseudo();
-                    $sujet_id = $value->getMessage()->getSujet()->getTitre();
+                    if($value->getMessage()->getSujet() != false){
+                        $sujet_id = $value->getMessage()->getSujet()->getTitre();
+                    }
+                    else{
+                        $sujet_id = "titre du sujet non disponible";
+                    }
                     // var_dump($sujet_id);die;
                     $pseudo = $value->getMembre()->getPseudo();
-                    $photo = $value->getPhoto();
+                    $photo = $value->getMessage()->getPhoto();
                     $date = $value->getDate();
                     $date = new \DateTime($date);
                     $date = $date->format('d/m/Y H:i');

@@ -1,115 +1,133 @@
-<div class='bordure'>
-    <div class='head_mess'>
-        <p>date :<?php echo $date?></p>
-        <?php
-        // var_dump($id_mess);die;
-        if(isset($author_signal)){
-            echo "Signalé par:".$author_signal;
-        }
-        ?>
-        <form action="index.php?action=signal" method="POST">
+<table class=''>
+    <tr class=''>
+        <td valign="top">
+            <div><?php echo $pseudo ?></div>
+            <div><?php echo $date ?></div>
+            <?php
+            // var_dump($sujet_id);die;
+            if (isset($author_signal)) { ?>
+                Signalé par:<?php echo $author_signal ?>
+            <?php
+            }
+            ?>
+        </td>
+</td>
+<td class="post" colspan="2">
+    <div class="contain_command">
+        <form class="command" action="index.php?ctrl=mess&action=signal" method="POST">
             <input type="hidden" name="message_id" value="<?php echo $id_mess; ?>">
             <input type="hidden" name="membre_id" value="<?php echo $id; ?>">
-            <input type="hidden" name="del" >
-            <button class="button_form">Signaler</button>
+            <input type="hidden" name="sujet_id" value="<?php echo $sujet_id; ?>">
+            <input type="hidden" name="signal">
+            <button class=""><i class="far fa-2x fa-hand-paper"></i></button>
         </form>
-        <p>Auteur :<?php echo $pseudo?></p>
+    <?php
+    if (isset($_SESSION["user"])) {
+        if ($user->getId() == $author || isset($_SESSION["admin"])) { ?>
+            <form class="command" action='index.php?ctrl=mess&action=delete' method='POST'>
+                <input type="hidden" name="message_id" value="<?php echo $id_mess ?>">
+                <input type="hidden" name="membre_id" value="<?php echo $id ?>">
+                <input type="hidden" name="sujet_id" value="<?php echo $sujet_id ?>">
+                <button><span class=' fa-2x fas fa-times-circle'></button>
+            </form>
+            <form class="command" action="index.php?ctrl=mess&action=modif" method="POST">
+                <input type="hidden" name="message_id" value="<?php echo $id_mess; ?>">
+                <input type="hidden" name="membre_id" value="<?php echo $id; ?>">
+                <input type="hidden" name="sujet_id" value="<?php echo $sujet_id ?>">
+                <button class=""><i class="fas fa-2x fa-edit"></i></button>
+            </form>
         <?php
-        if(isset($_SESSION["user"])){
-            if($user->getId() == $author || isset($_SESSION["admin"])){
-                echo "<div><form action='index.php?action=delete&message_id=".$id_mess."' method='POST'>";
-                echo ' <input type="hidden" name="membre_id" value="'.$id.'">
-                <input type="hidden" name="sujet_id" value="'.$sujet_id.'">';
-                echo "<button><span class=' fa-2x fas fa-times-circle'></button>";
-                echo "</form></div>";           
-
             }
         };
         ?>
-        
-      
-    
     </div>
-    <div class="post">
-        <div class="post_titre">
-            <!-- <div class="photo"> -->
-                <?php
-                if($photo == ""){
-                    $photo ="public/images/no.jpg";
-                }
-                else{
-                    $photo = $photo;
-                }
-                ?>
-                <img class="photo"src="<?php echo $photo?>" alt="">
-            <!-- </div> -->
-            <span><?php echo $content ?></span>
+    <div class="post_titre">
+        <div>
+            <?php
+            if ($photo == "") {
+                $photo = "public/images/no.jpg";
+            } else {
+                $photo = $photo;
+            }
+            ?>
+            <img class="photo" src="<?php echo $photo ?>" alt="">
         </div>
-                
+        <div class="content_table"><?php echo $content ?></div>
     </div>
-    <div class='subMess'>
-        <h3>commentaires</h3>
-        <span>ajouter un commentaire à cette publication</span> 
-        <form action='index.php?action=subMess&sujet_id=<?php echo $sujet_id?>' method='POST'>
-            <input class='input' type='text' name='content' value=''>
-            <input type="hidden" name="membre_id" value="<?php echo $id?>">
-            <input type="hidden" name="message_id" value="<?php echo $id_mess?>">
-            <input type='submit'>
-        </form>
+
+</td>
+    </tr>
+    <tr>
+        <td class='subMess' valign="top">
+            <h3>commentaires</h3>
+            <span>ajouter un commentaire à cette publication</span>
+            <form action='index.php?ctrl=mess&action=subMess&sujet_id=<?php echo $sujet_id ?>' method='POST'>
+                <input class='input' type='text' name='content' value=''>
+                <input type="hidden" name="membre_id" value="<?php echo $id ?>">
+                <input type="hidden" name="message_id" value="<?php echo $id_mess ?>">
+                <input type='submit'>
+            </form>
+        </td>
     
-    <div>
         <?php
-           
-        if($subMess){ 
-            if(!is_object($subMess)){
-                foreach ($result["data"]["subMess"] as $key => $value) {
-                    // var_dump($value->getMessage()->getId() == $id_mess);die;
-                if($value->getMessage()){
-                    if($value->getMessage()->getId() == $id_mess){
-    
-                    // var_dump($value->getMembre());
-                        echo "<div class='message_list sub'>";
-                            echo "<div class='mess'>";
-                            // echo $value->getMessage()->getId() == $id_mess;
-                                // var_dump($value->getMembre()->getPseudo());
-                                // echo "<div><p>Auteur :".$value->getMembre()->getPseudo()."</p></div>";
+            if ($subMess) {
+                if (!is_object($subMess)) {
+                    foreach ($result["data"]["subMess"] as $key => $value) {
+                        if ($value->getMessage()) {
+                            // var_dump($value->getMembre());
+                            if ($value->getMessage()->getId() == $id_mess) { ?>
+                            <td class="separator min" valign="top">
+                                
+                                <div class='message_list sub'>
+                                    <div class='mess'>
+                                <div>
+                                    <?php
+                                        if($value->getMembre()){ ?>
+                                        <span><?php echo $value->getMembre()->getPseudo() ?></span>
+
+                                       <?php } ?>
+                                </div>
+                                <?php
                                 $date = new \DateTime($value->getDate());
                                 $date = $date->format('d/m/Y H:i');
-                                echo "<div class='content_sub'>contenu:<p class='content_mess'>".$value->getContent()."</p></div>";
-                                echo "<p>date :".$date."</p>";
-                                // echo "<div>id submes : ".$value->getId()."</div>";
-                            echo "</div></div>";
-                            echo "<div class='separator'></div>";
-                        }              
+                                ?>
+                                </div>
+                                <div><?php echo $date ?></div>
+                            </td>
+                            <td class="separator" valign="top">
+                                        <div class='content_sub'><p class='content_mess'><?php echo $value->getContent() ?></p>
+                                    </div>
+                                </div>
+                            </td>
+                            </tr>
+                            <td></td>
+                        <?php }
+                        }
                     }
-                } 
-            }
-            else{
-                if($result["data"]["subMess"]->getId() == $id_mess){
-                echo "<div class='message sub'>";
-                // var_dump(!is_object($subMess));die();
-                // var_dump($result["data"]["subMess"]);
-                            echo "<div class='head_mess'>";
-                            echo $result["data"]["subMess"]->getMessage()->getId() == $id_mess;
-                                echo "<div><p>Auteur :".$result["data"]["subMess"]->getMembre()->getPseudo()."</p></div>";
+                } else {
+                    if ($result["data"]["subMess"]->getId() == $id_mess) { ?>
+                        <div class='message sub'>
+                            <div class='head_mess'>
+                                <div>Auteur :<?php echo $result["data"]["subMess"]->getMembre()->getPseudo() ?></div>
+                                <?php
                                 $date = new \DateTime($result["data"]["subMess"]->getDate());
                                 $date = $date->format('d/m/Y H:i');
-                                echo "<div class='content_sub'>contenu:<p class='content_mess'>".$result["data"]["subMess"]->getContent()."</p></div>";
-                                echo "<p>date :".$date."</p>";
-                                // echo "<div>id submes : ".$result["data"]["subMess"]->getId()."</div>";
-                            echo "</div></div>";
+                                ?>
+                                <div class='content_sub'>contenu:<p class='content_mess'><?php echo  $result["data"]["subMess"]->getContent() ?></p>
+                                </div>
+                                <div>date :<?php $date ?></div>
+                                // <div>id submes : <?php echo $result["data"]["subMess"]->getId() ?></div>
+                            </div>
+                        </div>
+                <?php
+                    }
                 }
+            } else {
+                ?>
+                <div><?php echo $msg ?></div>
+            <?php
             }
-        }
-        else{
-            // var_dump("toto");die;
-            echo "<div>".$msg."</div>";
-        }
-        
-        ?>
-    </div>
-    
-</div>
-</div>
-           
-                            
+            ?>
+        </td>
+    </tr>
+</table>

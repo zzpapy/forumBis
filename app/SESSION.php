@@ -3,11 +3,7 @@
 	
 	class Session{
 
-        
-	// 	public static function sessionStart($user){
-      //       // session_start();
-      //      return $_SESSION["user"] = serialize($user);
-      // }
+     
       public static function sessionDestroy(){
             session_destroy();
       }
@@ -25,10 +21,18 @@
                 $msg = $_SESSION[$categ];  
                 unset($_SESSION[$categ]);
             }
-            else $msg = "";
-            
+            else $msg = "";            
             return $msg;
         }
+      public static function verifUser(){
+            $id = $_SESSION["user"]->getId();
+            if(isset($id)){
+                  return $id;
+            }
+            else{
+                  return false;
+            }
+      }
  
 
 	}
